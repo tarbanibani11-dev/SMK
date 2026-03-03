@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>SMK Ma'arif 1 Kebumen | SMK Pusat Keunggulan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Color Palette */
+        :root {
+            --hijau-tua: #0a4d2e;        /* identitas NU/Ma'arif */
+            --hijau-tua-gelap: #052e1c;
+            --putih: #ffffff;
+            --abu-muda: #f8fafc;
+            --abu-border: #e2e8f0;
+            --emas: #c6a43f;             /* aksen elegan */
+            --emas-soft: #e4cd8d;
+            --teks-gelap: #1e293b;
+            --teks-abu: #475569;
+            --shadow-sm: 0 10px 30px -10px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.02);
+            --shadow-hover: 0 25px 40px -12px rgba(10,77,46,0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: var(--putih);
+            color: var(--teks-gelap);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Utility */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 5rem 0;
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--hijau-tua);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--hijau-tua), var(--emas));
+            border-radius: 4px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary {
+            background-color: var(--hijau-tua);
+            color: var(--putih);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--hijau-tua-gelap);
+            transform: scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--hijau-tua);
+            border: 2px solid var(--hijau-tua);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--hijau-tua);
+            color: var(--putih);
+            transform: scale(1.02);
+        }
+
+        /* NAVBAR STICKY */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+            background-color: transparent;
+        }
+
+        .navbar.scrolled {
+            background-color: var(--putih);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            padding: 0.8rem 2rem;
+        }
+
+        .navbar.scrolled .nav-links a {
+            color: var(--teks-gelap);
+        }
+
+        .navbar.scrolled .logo span {
+            color: var(--hijau-tua);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--putih);
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .scrolled .logo {
+            color: var(--hijau-tua);
+            text-shadow: none;
+        }
+
+        .logo span {
+            color: var(--emas);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: var(--putih);
+            transition: var(--transition);
+            font-size: 1.1rem;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+
+        .scrolled .nav-links a {
+            text-shadow: none;
+        }
+
+        .nav-links a:hover {
+            color: var(--emas);
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 2rem;
+            color: var(--putih);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .scrolled .mobile-toggle {
+            color: var(--hijau-tua);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            background: linear-gradient(135deg, rgba(10,77,46,0.92), rgba(5,46,28,0.9)), 
+                        url('https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1786&auto=format&fit=crop') center/cover no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--putih);
+            padding-top: 80px;
+            opacity: 0;
+            animation: heroFade 1.2s ease forwards;
+        }
+
+        @keyframes heroFade {
+            0% { opacity: 0; transform: scale(1.02); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.6rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .hero-desc {
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.2rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(6px);
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        /* CARD STYLES */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--putih);
+            border-radius: 24px;
+            padding: 2rem 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card h3 {
+            color: var(--hijau-tua);
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: var(--teks-abu);
+        }
+
+        /* jurusan badge */
+        .jurusan-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--abu-muda);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+            font-size: 2rem;
+            color: var(--hijau-tua);
+        }
+
+        /* fasilitas */
+        .fasilitas-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+            background: var(--abu-muda);
+            padding: 2rem;
+            border-radius: 32px;
+        }
+
+        .fasilitas-item {
+            background: var(--putih);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            box-shadow: var(--shadow-sm);
+            font-weight: 500;
+            border-left: 4px solid var(--emas);
+        }
+
+        /* prestasi timeline */
+        .prestasi-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .prestasi-card {
+            background: var(--abu-muda);
+            border-radius: 30px;
+            padding: 1.8rem;
+            border-left: 6px solid var(--emas);
+            transition: var(--transition);
+        }
+
+        .prestasi-card:hover {
+            background: var(--putih);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* galeri */
+        .galeri-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .galeri-item {
+            border-radius: 24px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .galeri-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .galeri-item:hover img {
+            transform: scale(1.08);
+        }
+
+        /* kontak & form */
+        .kontak-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 1.5px solid var(--abu-border);
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--emas);
+            box-shadow: 0 0 0 4px rgba(198,164,63,0.15);
+        }
+
+        .map-placeholder {
+            background: #d9e2ec;
+            border-radius: 30px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--teks-abu);
+            background-image: url('https://images.unsplash.com/photo-1569336415962-a4bd9f69c07b?q=80&w=1931&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid var(--putih);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--putih);
+            max-width: 500px;
+            width: 90%;
+            border-radius: 40px;
+            padding: 2.5rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--teks-abu);
+        }
+
+        /* footer */
+        footer {
+            background: var(--hijau-tua);
+            color: var(--putih);
+            padding: 3rem 0 2rem;
+            border-top: 4px solid var(--emas);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 3rem;
+        }
+
+        .social-icons span {
+            font-size: 1.8rem;
+            margin-right: 1rem;
+            opacity: 0.8;
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .social-icons span:hover {
+            opacity: 1;
+            color: var(--emas);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--emas-soft);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-links {
+                position: fixed;
+                top: 0; left: -100%;
+                width: 70%;
+                height: 100vh;
+                background: var(--putih);
+                flex-direction: column;
+                justify-content: center;
+                box-shadow: 5px 0 30px rgba(0,0,0,0.1);
+                transition: 0.4s ease;
+                z-index: 1001;
+                gap: 2rem;
+            }
+            .nav-links.active {
+                left: 0;
+            }
+            .nav-links a {
+                color: var(--hijau-tua) !important;
+                font-size: 1.3rem;
+            }
+            .mobile-toggle {
+                display: block;
+                z-index: 1002;
+            }
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .prestasi-grid, .galeri-grid, .kontak-grid, .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .galeri-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">SMK Ma'arif<span> 1</span></div>
+        <button class="mobile-toggle" id="mobileToggle">☰</button>
+        <div class="nav-links" id="navLinks">
+            <a href="#beranda">Beranda</a>
+            <a href="#profil">Profil</a>
+            <a href="#akademik">Akademik</a>
+            <a href="#prestasi">Prestasi</a>
+            <a href="#galeri">Galeri</a>
+            <a href="#ppdb">PPDB</a>
+            <a href="#kontak">Kontak</a>
+        </div>
+    </nav>
+
+    <!-- Hero / Beranda -->
+    <section id="beranda" class="hero">
+        <div class="hero-content container">
+            <h1>SMK Ma’arif 1 Kebumen</h1>
+            <div class="subtitle">SMK Pusat Keunggulan – Terampil, Berakhlak, Siap Kerja</div>
+            <p class="hero-desc">Didirikan 14 Maret 1990 • Akreditasi A • Rintisan SBI sejak 2008</p>
+            <div class="hero-buttons">
+                <a href="#profil" class="btn btn-primary">Lihat Profil</a>
+                <a href="#ppdb" class="btn btn-outline" style="background:white; color:var(--hijau-tua); border:none;">PPDB Online</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profil -->
+    <section id="profil" class="container">
+        <h2 class="section-title">Profil Sekolah</h2>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:2rem;">
+            <div class="card" style="background:var(--abu-muda);">
+                <h3 style="color:var(--hijau-tua);">Sejarah</h3>
+                <p>Didirikan 14 Maret 1990 di bawah naungan LP Ma’arif NU. Telah mencetak ribuan lulusan berkompeten dan berakhlak mulia.</p>
+            </div>
+            <div class="card" style="background:var(--abu-muda);">
+                <h3 style="color:var(--hijau-tua);">Visi</h3>
+                <p>“Mewujudkan insan didik berkriteria TRIMUTTIAH (Muttaqin, Mukmin, Mukhsin) Terampil, Berpengetahuan Teknologi dan Informasi serta berjiwa Ahlussunah Wal Jama’ah.”</p>
+            </div>
+        </div>
+        <div class="card" style="margin-top:2rem;">
+            <h3 style="color:var(--hijau-tua);">Misi</h3>
+            <ul style="columns:2; list-style:none; padding:1rem 0;">
+                <li>✓ Membentuk siswa berakhlak mulia</li>
+                <li>✓ Menghasilkan lulusan kompeten sesuai bidang</li>
+                <li>✓ Inovatif dan siap kerja</li>
+                <li>✓ Menjalin kerja sama industri</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Akademik & Jurusan -->
+    <section id="akademik" class="container">
+        <h2 class="section-title">Akademik & Jurusan</h2>
+        <div class="cards-grid">
+            <div class="card"><div class="jurusan-icon">🔧</div><h3>TKRO</h3><p>Teknik Kendaraan Ringan Otomotif: perawatan mesin modern.</p></div>
+            <div class="card"><div class="jurusan-icon">🏍️</div><h3>TSM</h3><p>Teknik Sepeda Motor: ahli servis dan modifikasi.</p></div>
+            <div class="card"><div class="jurusan-icon">📺</div><h3>TAV</h3><p>Teknik Audio Video: produksi konten & broadcast.</p></div>
+            <div class="card"><div class="jurusan-icon">⚙️</div><h3>TEI</h3><p>Teknik Elektronika Industri: otomasi & mikrokontroler.</p></div>
+            <div class="card"><div class="jurusan-icon">🎨</div><h3>DKV</h3><p>Desain Komunikasi Visual: grafis, UI/UX, animasi.</p></div>
+            <div class="card"><div class="jurusan-icon">🏨</div><h3>Perhotelan</h3><p>Manajemen hotel, tata boga, dan pelayanan prima.</p></div>
+        </div>
+        <div class="fasilitas-list">
+            <span class="fasilitas-item">43 ruang kelas</span><span class="fasilitas-item">6 bengkel TKRO</span><span class="fasilitas-item">5 lab multimedia</span>
+            <span class="fasilitas-item">Lab komputer</span><span class="fasilitas-item">Lab bahasa</span><span class="fasilitas-item">Perpustakaan</span>
+            <span class="fasilitas-item">Masjid</span><span class="fasilitas-item">Asrama 3 lantai</span><span class="fasilitas-item">Lapangan olahraga</span>
+        </div>
+    </section>
+
+    <!-- Prestasi -->
+    <section id="prestasi" class="container">
+        <h2 class="section-title">Prestasi</h2>
+        <div class="prestasi-grid">
+            <div class="prestasi-card">🏆 Juara 2 Elektronika tingkat Provinsi (2026)</div>
+            <div class="prestasi-card">🏆 Juara 1 LKS TKRO & TSM Kabupaten Kebumen (2025)</div>
+            <div class="prestasi-card">🥇 2 emas Porsema XIII Jawa Tengah (2025)</div>
+            <div class="prestasi-card">🏅 Juara 1 Poster Nasional (2019)</div>
+        </div>
+    </section>
+
+    <!-- Galeri -->
+    <section id="galeri" class="container">
+        <h2 class="section-title">Galeri</h2>
+        <div class="galeri-grid">
+            <div class="galeri-item"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1932&auto=format&fit=crop" alt="Gedung"></div>
+            <div class="galeri-item"><img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop" alt="Kegiatan Belajar"></div>
+            <div class="galeri-item"><img src="https://images.unsplash.com/photo-1526976668912-1a811878dd37?q=80&w=2070&auto=format&fit=crop" alt="Ekskul"></div>
+            <div class="galeri-item"><img src="https://images.unsplash.com/photo-1571266028243-3716f02d4d2e?q=80&w=2070&auto=format&fit=crop" alt="Prestasi"></div>
+        </div>
+    </section>
+
+    <!-- PPDB Online -->
+    <section id="ppdb" class="container">
+        <h2 class="section-title">PPDB Online 2026/2027</h2>
+        <div style="background:var(--abu-muda); border-radius:40px; padding:3rem; text-align:center;">
+            <p style="font-size:1.8rem; font-weight:500;">Gelombang 1: 1 Des 2025 – 31 Maret 2026</p>
+            <p style="margin:2rem 0;">Pendaftaran dilakukan secara online. Klik tombol di bawah untuk memulai.</p>
+            <button class="btn btn-primary" id="openModalBtn" style="font-size:1.2rem;">Daftar Sekarang</button>
+        </div>
+    </section>
+
+    <!-- Kontak -->
+    <section id="kontak" class="container">
+        <h2 class="section-title">Kontak & Pesan</h2>
+        <div class="kontak-grid">
+            <div>
+                <p><strong>Alamat:</strong> Jl. Kusuma No. 75, Bumirejo, Kebumen, Jawa Tengah</p>
+                <p><strong>Telepon:</strong> (0287) 383744</p>
+                <p><strong>Email:</strong> humas@smkmaarif1kebumen.sch.id</p>
+                <div class="map-placeholder mt-4">📍 Google Maps Placeholder</div>
+            </div>
+            <div>
+                <form id="contactForm">
+                    <div class="form-group"><input type="text" placeholder="Nama Anda" id="contactName"></div>
+                    <div class="form-group"><input type="email" placeholder="Email" id="contactEmail"></div>
+                    <div class="form-group"><textarea rows="4" placeholder="Pesan" id="contactMessage"></textarea></div>
+                    <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h3 style="color:var(--emas);">SMK Ma'arif 1 Kebumen</h3>
+                <p style="margin:1rem 0;">Terampil, Berakhlak, Siap Kerja</p>
+            </div>
+            <div>
+                <h4>Menu Cepat</h4>
+                <p><a href="#beranda" style="color:white; text-decoration:none;">Beranda</a></p>
+                <p><a href="#profil" style="color:white; text-decoration:none;">Profil</a></p>
+                <p><a href="#ppdb" style="color:white; text-decoration:none;">PPDB</a></p>
+            </div>
+            <div>
+                <h4>Kontak & Sosial</h4>
+                <p>📞 (0287) 383744</p>
+                <div class="social-icons">
+                    <span>📘</span><span>📷</span><span>🐦</span><span>📧</span>
+                </div>
+            </div>
+        </div>
+        <div class="copyright container">
+            © 2026 SMK Ma’arif 1 Kebumen. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Modal PPDB -->
+    <div id="ppdbModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModal">&times;</span>
+            <h2 style="color:var(--hijau-tua); margin-bottom:1.5rem;">Formulir Pendaftaran</h2>
+            <form id="ppdbForm">
+                <div class="form-group"><input type="text" placeholder="Nama Lengkap" id="nama"></div>
+                <div class="form-group"><input type="text" placeholder="Asal Sekolah" id="asalSekolah"></div>
+                <div class="form-group">
+                    <select id="jurusan" style="width:100%; padding:1rem; border-radius:30px; border:1.5px solid var(--abu-border);">
+                        <option>Pilih Jurusan</option>
+                        <option>TKRO</option><option>TSM</option><option>TAV</option><option>TEI</option><option>DKV</option><option>Perhotelan</option>
+                    </select>
+                </div>
+                <div class="form-group"><input type="text" placeholder="Nomor HP" id="hp"></div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Kirim Pendaftaran</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // Navbar scroll effect & mobile toggle
+            const navbar = document.getElementById('navbar');
+            const mobileToggle = document.getElementById('mobileToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            mobileToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Tutup menu saat link diklik (smooth)
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            // Scroll reveal (animasi section muncul)
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+
+            sections.forEach(section => observer.observe(section));
+
+            // Modal PPDB
+            const modal = document.getElementById('ppdbModal');
+            const openBtn = document.getElementById('openModalBtn');
+            const closeBtn = document.getElementById('closeModal');
+            const ppdbForm = document.getElementById('ppdbForm');
+
+            openBtn.addEventListener('click', () => {
+                modal.classList.add('show');
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('show');
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('show');
+            });
+
+            // Validasi form modal
+            ppdbForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const nama = document.getElementById('nama').value.trim();
+                const asal = document.getElementById('asalSekolah').value.trim();
+                const jurusan = document.getElementById('jurusan').value;
+                const hp = document.getElementById('hp').value.trim();
+
+                if (!nama || !asal || jurusan === 'Pilih Jurusan' || !hp) {
+                    alert('Semua field harus diisi!');
+                    return;
+                }
+                alert(`Pendaftaran atas nama ${nama} berhasil dikirim (simulasi).`);
+                modal.classList.remove('show');
+                ppdbForm.reset();
+            });
+
+            // Form kontak validasi
+            document.getElementById('contactForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('contactName').value.trim();
+                const email = document.getElementById('contactEmail').value.trim();
+                const msg = document.getElementById('contactMessage').value.trim();
+                if (!name || !email || !msg) {
+                    alert('Nama, email, dan pesan harus diisi.');
+                } else {
+                    alert('Pesan terkirim (simulasi). Terima kasih!');
+                }
+            });
+
+            // Smooth scroll internal link (fallback)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === "#") return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
